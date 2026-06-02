@@ -1,0 +1,15 @@
+{
+	"name": "@mfe/config",
+	"version": "1.0.0",
+	"type": "module",
+	"files": ["tailwind"],
+	"exports": {
+		"./tailwind/theme": "./tailwind/theme.css"
+	},
+	"peerDependencies": {
+		"tailwindcss": "^4.3.0"
+	},
+	"publishConfig": {
+		"registry": "https://npm.pkg.github.com"
+	}
+}
