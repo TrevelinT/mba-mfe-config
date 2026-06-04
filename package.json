@@ -1,15 +1,39 @@
 {
-	"name": "@mfe/config",
-	"version": "1.0.0",
+	"name": "@trevelint/mfe-config",
+	"version": "0.0.1",
+	"description": "Configuration package for micro frontend experiment",
+	"keywords": [
+		"mfe",
+		"experiment",
+		"mba"
+	],
+	"homepage": "https://github.com/TrevelinT/mba-mfe-config#readme",
+	"bugs": {
+		"url": "https://github.com/TrevelinT/mba-mfe-config/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/TrevelinT/mba-mfe-config.git"
+	},
+	"license": "ISC",
+	"author": "Danilo Trevelin",
 	"type": "module",
-	"files": ["tailwind"],
 	"exports": {
 		"./tailwind/theme": "./tailwind/theme.css"
+	},
+	"files": [
+		"tailwind"
+	],
+	"scripts": {
+		"test": "exit 0"
 	},
 	"peerDependencies": {
 		"tailwindcss": "^4.3.0"
 	},
+	"engines": {
+		"node": ">=24.15.0"
+	},
 	"publishConfig": {
-		"registry": "https://npm.pkg.github.com"
+		"@trevelint:registry": "https://npm.pkg.github.com"
 	}
 }
