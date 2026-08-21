@@ -68,13 +68,6 @@ function createGitHubRelease(tag, notes) {
 	);
 }
 
-function publishPackage() {
-	execFileSync("npm", ["publish"], {
-		cwd: rootDir,
-		stdio: "inherit",
-	});
-}
-
 const version = readPackageVersion();
 const tag = `v${version}`;
 
@@ -83,23 +76,14 @@ if (version === "0.0.0") {
 	process.exit(0);
 }
 
-if (!existsSync(changelogPath)) {
-	console.log("Skipping release: CHANGELOG.md is missing (no Version PR yet)");
-	process.exit(0);
-}
-
 if (tagExists(tag)) {
 	console.log(`Skipping release: tag ${tag} already exists`);
 	process.exit(0);
 }
 
-const notes = extractChangelogSection(
-	readFileSync(changelogPath, "utf8"),
-	version,
-);
-
-console.log(`Publishing @trevelint/mfe-config@${version}`);
-publishPackage();
+const notes = existsSync(changelogPath)
+	? extractChangelogSection(readFileSync(changelogPath, "utf8"), version)
+	: `Release ${tag}`;
 
 console.log(`Creating GitHub Release ${tag}`);
 createGitHubRelease(tag, notes);

@@ -24,13 +24,14 @@ Each consumer declares `@trevelint/mfe-config` in `dependencies`.
 |--------|-------------|
 | `npm run changeset` | Add a changeset (semver bump + notes) |
 | `npm run version-packages` | Apply pending changesets (used by Release CI) |
-| `npm run release` | `npm publish` to GitHub Packages + GitHub tag `vX.Y.Z` |
+| `npm run release` | Create GitHub Release / tag `vX.Y.Z` |
+| `npm run publish:package` | `npm publish` to GitHub Packages (used by CD) |
 
 ## CI
 
-[GitHub Actions](https://docs.github.com/en/actions) ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)) runs on push to `main`, on pull request open/sync, and on demand via **Run workflow** (`workflow_dispatch`). It installs dependencies and runs `npm publish --dry-run`.
+[GitHub Actions](https://docs.github.com/en/actions) ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)) runs on push to `main`, on pull request open/sync, and on demand via **Run workflow** (`workflow_dispatch`). It installs dependencies and runs `npm test`. There is no publish dry-run: an already-released version fails, and a Version Packages PR has no new tag yet.
 
-## Release
+## Release and CD
 
 Versions are managed with [Changesets](https://github.com/changesets/changesets). Include a changeset in any PR that should bump the version:
 
@@ -44,7 +45,8 @@ npm run changeset
 2. **CI** runs. Only if it succeeds does **Release** ([`.github/workflows/release.yml`](.github/workflows/release.yml)) start.
 3. Release opens or updates a **Version Packages** PR.
 4. Review and merge that PR when you want to cut a version.
-5. CI runs again. On success, Release runs `npm run release`: publishes `@trevelint/mfe-config` to GitHub Packages and creates tag/release `v{version}` from `CHANGELOG.md`.
+5. CI runs again. On success, Release runs `npm run release` and creates tag/release `v{version}` from `CHANGELOG.md`.
+6. **CD** ([`.github/workflows/cd.yml`](.github/workflows/cd.yml)) runs after Release. If a `v*` tag points at that commit, it publishes `@trevelint/mfe-config` to GitHub Packages.
 
 Do not push `v*` tags by hand. The first bump after this infrastructure lands should be an explicit changeset (for example `0.1.0`).
 

@@ -28,7 +28,8 @@
 		"test": "exit 0",
 		"changeset": "changeset",
 		"version-packages": "changeset version",
-		"release": "node scripts/release.mjs"
+		"release": "node scripts/release.mjs",
+		"publish:package": "node scripts/publish.mjs"
 	},
 	"devDependencies": {
 		"@changesets/changelog-github": "0.7.0",
